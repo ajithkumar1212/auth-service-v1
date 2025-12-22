@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot App",
+      "request": "launch",
+      "mainClass": "com.auth_service_v1.Application",
+      "projectName": "auth-service-v1",
+      "vmArgs": "-Duser.timezone=Asia/Kolkata"
+    }
+  ]
+}

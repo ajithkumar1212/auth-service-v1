@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/testdb
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idle-timeout: 300000  # 5 minutes
+      max-lifetime: 1200000  # 20 minutes
+      connection-timeout: 20000  # 20 seconds
+      leak-detection-threshold: 60000  # 1 minute
+  jpa:
+    database: POSTGRESQL
+    show-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+jwt:
+  secret: bXlTZWNyZXRLZXlNeVNlY3JldEtleU15U2VjcmV0S2V5TXlTZWNyZXRLZXk=
+  expiration: 86400000
+  refreshExpiration: 604800000
+
+logging:
+  level:
+    com.auth_service_v1: DEBUG  # Adjust package
+    org.springframework.security: DEBUG
