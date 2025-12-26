@@ -1,5 +1,6 @@
-package com.auth_service_v1.entity;
+package com.auth_service_v1.entity.user;
 
+import com.auth_service_v1.entity.audit.AuditableEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

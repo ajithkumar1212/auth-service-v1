@@ -19,17 +19,17 @@ spring:
     show-sql: false
     open-in-view: false
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 jwt:
-  secret: bXlTZWNyZXRLZXlNeVNlY3JldEtleU15U2VjcmV0S2V5TXlTZWNyZXRLZXk=
+  secret: Xy8QKc9R0b1s4d9mF3YwZ+4B+7L6hZx0c9sP8Vq2a5U=
   expiration: 86400000
   refreshExpiration: 604800000
 
 logging:
   level:
-    com.auth_service_v1: DEBUG  # Adjust package
-    org.springframework.security: DEBUG
+    "[com.auth_service_v1]": DEBUG
+    "[org.springframework.security]": DEBUG

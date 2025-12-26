@@ -6,31 +6,56 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.time.Instant;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.crypto.SecretKey;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public class JwtUtils {
 
-  private static Key getSignInKey(String secret) {
+  public static Key getSignInKey(String secret) {
     byte[] keyBytes = Decoders.BASE64.decode(secret);
     return Keys.hmacShaKeyFor(keyBytes);
   }
 
-  public static String generateToken(
-      String secret, Map<String, Object> claims, String subject, long expirationMs) {
+  public static Collection<GrantedAuthority> getAuthorities(String token, String secret) {
+    Claims claims = JwtUtils.getAllClaims(token, secret);
+    Object rawAuthorities = claims.get("authorities");
+    if (!(rawAuthorities instanceof List<?> list)) {
+      return Collections.emptySet();
+    }
+    return list.stream()
+        .filter(Objects::nonNull)
+        .map(Object::toString)
+        .map(SimpleGrantedAuthority::new)
+        .collect(Collectors.toSet());
+  }
+
+  public static String generateAccessToken(Authentication auth, String secret, long expirationMs) {
     return Jwts.builder()
-        .claims(claims)
-        .subject(subject)
+        .subject(auth.getName())
+        .claim(
+            "authorities",
+            auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
         .issuedAt(Date.from(Instant.now()))
         .expiration(Date.from(Instant.now().plusMillis(expirationMs)))
         .signWith(getSignInKey(secret))
         .compact();
   }
 
-  public static String getUsernameFromToken(String secret, String token) {
+  public static String getUsernameFromToken(String token, String secret) {
     return getClaimFromToken(secret, token, Claims::getSubject);
+  }
+
+  public static Claims getAllClaims(String token, String secret) {
+    return getAllClaimsFromToken(secret, token);
   }
 
   public static <T> T getClaimFromToken(
@@ -47,7 +72,7 @@ public class JwtUtils {
         .getPayload();
   }
 
-  public static boolean validateToken(String secret, String token) {
+  public static boolean isvalidate(String token, String secret) {
     try {
       getAllClaimsFromToken(secret, token);
       return !isTokenExpired(secret, token);

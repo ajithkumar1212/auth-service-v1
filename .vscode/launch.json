@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Application1",
+      "request": "launch",
+      "mainClass": "com.auth_service_v1.Application1",
+      "projectName": "auth-service-v1"
+    },
+    {
+      "type": "java",
+      "name": "A$Application1",
+      "request": "launch",
+      "mainClass": "com.auth_service_v1.A$Application1",
+      "projectName": "auth-service-v1"
+    },
+    {
+      "type": "java",
       "name": "Spring Boot App",
       "request": "launch",
       "mainClass": "com.auth_service_v1.Application",

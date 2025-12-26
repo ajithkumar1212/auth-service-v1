@@ -1,5 +1,6 @@
-package com.auth_service_v1.entity;
+package com.auth_service_v1.entity.user;
 
+import com.auth_service_v1.entity.audit.AuditableEntity;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;

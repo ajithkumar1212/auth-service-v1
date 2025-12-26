@@ -1,5 +1,6 @@
-package com.auth_service_v1.entity;
+package com.auth_service_v1.entity.auth;
 
+import com.auth_service_v1.entity.audit.AuditableEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -21,7 +22,7 @@ public class Otp extends AuditableEntity {
 
   private static final long serialVersionUID = 1L;
 
-  @Id private String phoneNumber;
+  @Id private String mobileNumber;
   private String otp;
   private LocalDateTime expiry;
 }

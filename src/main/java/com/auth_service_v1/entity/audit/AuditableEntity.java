@@ -1,4 +1,4 @@
-package com.auth_service_v1.entity;
+package com.auth_service_v1.entity.audit;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

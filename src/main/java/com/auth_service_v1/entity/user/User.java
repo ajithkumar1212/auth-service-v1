@@ -1,5 +1,6 @@
-package com.auth_service_v1.entity;
+package com.auth_service_v1.entity.user;
 
+import com.auth_service_v1.entity.audit.AuditableEntity;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,8 +22,8 @@ public class User extends AuditableEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "phone_number")
-  private String phoneNumber;
+  @Column(name = "mobile_number")
+  private String mobileNumber;
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
@@ -31,7 +32,7 @@ public class User extends AuditableEntity {
       inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
-  public User(String phoneNumber) {
-    this.phoneNumber = phoneNumber;
+  public User(String mobileNumber) {
+    this.mobileNumber = mobileNumber;
   }
 }
