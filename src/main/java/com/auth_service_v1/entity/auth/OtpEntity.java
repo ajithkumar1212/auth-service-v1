@@ -18,7 +18,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(callSuper = true)
-public class Otp extends AuditableEntity {
+public class OtpEntity extends AuditableEntity {
 
   private static final long serialVersionUID = 1L;
 

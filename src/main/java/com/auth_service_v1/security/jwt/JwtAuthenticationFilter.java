@@ -1,4 +1,4 @@
-package com.auth_service_v1.security;
+package com.auth_service_v1.security.jwt;
 
 import com.auth_service_v1.service.impl.auth.JwtServiceImpl;
 import jakarta.servlet.FilterChain;

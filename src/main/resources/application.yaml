@@ -25,8 +25,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 jwt:
-  secret: Xy8QKc9R0b1s4d9mF3YwZ+4B+7L6hZx0c9sP8Vq2a5U=
-  expiration: 86400000
+  accessSecret: Xy8QKc9R0b1s4d9mF3YwZ+4B+7L6hZx0c9sP8Vq2a5U=
+  refreshSecret: QZ9JY6T5V4W0X7B8R3C2N4KMPDHLAFESUO1t
+  accessExpiration: 86400000
   refreshExpiration: 604800000
 
 logging:

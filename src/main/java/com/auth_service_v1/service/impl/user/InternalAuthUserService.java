@@ -17,13 +17,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService implements IUserService {
+public class InternalAuthUserService implements IUserService {
 
   private final UserRepository userRepository;
 
   private final RoleRepository roleRepository;
 
-  public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+  public InternalAuthUserService(UserRepository userRepository, RoleRepository roleRepository) {
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
   }

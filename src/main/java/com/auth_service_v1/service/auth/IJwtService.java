@@ -2,6 +2,7 @@ package com.auth_service_v1.service.auth;
 
 import com.auth_service_v1.dto.auth.AuthResponse;
 import com.auth_service_v1.dto.user.UserDto;
+import io.jsonwebtoken.Claims;
 import java.util.Collection;
 import java.util.Date;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,8 @@ public interface IJwtService {
   public String getUsernameFromToken(String token);
 
   String generateRefreshToken(UserDto user);
+
+  public Claims getAllClaims(String token);
 
   public boolean isValidateToken(String token);
 

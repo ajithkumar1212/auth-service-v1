@@ -1,6 +1,6 @@
 package com.auth_service_v1.service.impl.user;
 
-import com.auth_service_v1.entity.auth.Otp;
+import com.auth_service_v1.entity.auth.OtpEntity;
 import com.auth_service_v1.repository.auth.OtpRepository;
 import com.auth_service_v1.service.user.IOtpService;
 import java.time.LocalDateTime;
@@ -15,19 +15,19 @@ public class OtpService implements IOtpService {
 
   public String generateOtp(String mobileNumber) {
     String otp = String.valueOf(100000 + new Random().nextInt(900000));
-    Otp otpEntity = otpRepository.findById(mobileNumber).orElse(null);
+    OtpEntity otpEntity = otpRepository.findById(mobileNumber).orElse(null);
     if (otpEntity != null) {
       otpEntity.setOtp(otp);
       otpEntity.setExpiry(LocalDateTime.now().plusMinutes(5));
     } else {
-      otpEntity = new Otp(mobileNumber, otp, LocalDateTime.now().plusMinutes(5));
+      otpEntity = new OtpEntity(mobileNumber, otp, LocalDateTime.now().plusMinutes(5));
     }
     otpRepository.save(otpEntity);
     return otp;
   }
 
   public boolean verifyOtp(String mobileNumber, String otp) {
-    Otp otpEntity = otpRepository.findById(mobileNumber).orElse(null);
+    OtpEntity otpEntity = otpRepository.findById(mobileNumber).orElse(null);
     if (otpEntity != null
         && otpEntity.getOtp().equals(otp)
         && otpEntity.getExpiry().isAfter(LocalDateTime.now())) {

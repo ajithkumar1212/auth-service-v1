@@ -1,9 +1,9 @@
-package com.auth_service_v1.security;
+package com.auth_service_v1.security.provider;
 
 import com.auth_service_v1.dto.user.UserDto;
+import com.auth_service_v1.security.token.OtpAuthenticationToken;
 import com.auth_service_v1.service.impl.user.OtpService;
 import com.auth_service_v1.service.impl.user.UserService;
-import java.util.Optional;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -24,19 +24,32 @@ public class OtpAuthenticationProvider implements AuthenticationProvider {
   @Override
   public Authentication authenticate(Authentication auth) {
 
-    String mobile = auth.getPrincipal().toString();
-    String otp = auth.getCredentials().toString();
+    if (!(auth instanceof OtpAuthenticationToken)) {
+      return null;
+    }
+
+    String mobileNumber = auth.getPrincipal().toString();
+
+    Object credentials = auth.getCredentials();
+    if (credentials == null) {
+      throw new BadCredentialsException("OTP is missing");
+    }
+
+    String otp = credentials.toString();
 
     // 1. Verify OTP
-    if (!otpService.verifyOtp(mobile, otp)) {
+    if (!otpService.verifyOtp(mobileNumber, otp)) {
       throw new BadCredentialsException("Invalid OTP");
     }
 
     // 2. Find or create user
-    Optional<UserDto> userDto = userService.findOrCreateUser(mobile);
+    UserDto userDto =
+        userService
+            .findOrCreateUser(mobileNumber)
+            .orElseThrow(() -> new BadCredentialsException("User creation failed"));
 
     // 3. Convert to UserDetails (RBAC applied)
-    UserDetails userDetails = userService.toUserDetails(userDto.get());
+    UserDetails userDetails = userService.toUserDetails(userDto);
 
     // 4. Authentication success
     return new OtpAuthenticationToken(userDetails);

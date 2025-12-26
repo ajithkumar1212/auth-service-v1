@@ -8,6 +8,8 @@ public interface IUserService {
 
   public Optional<UserDto> findByMobileNumber(String mobileNumber);
 
+  public Optional<UserDto> findUser(String mobileNumber);
+
   public UserDetails toUserDetails(UserDto userDto);
 
   public Optional<UserDto> findOrCreateUser(String mobileNumber);

@@ -3,7 +3,7 @@ package com.auth_service_v1.controller;
 import com.auth_service_v1.dto.auth.AuthResponse;
 import com.auth_service_v1.dto.auth.SignupRequest;
 import com.auth_service_v1.dto.auth.VerifyOtpRequest;
-import com.auth_service_v1.security.OtpAuthenticationToken;
+import com.auth_service_v1.security.token.OtpAuthenticationToken;
 import com.auth_service_v1.service.auth.IJwtService;
 import com.auth_service_v1.service.user.IOtpService;
 import jakarta.validation.Valid;
@@ -30,9 +30,9 @@ public class AuthController {
 
   @PostMapping("/verify-otp")
   public ResponseEntity<AuthResponse> verifyOtp(@Valid @RequestBody VerifyOtpRequest request) {
-    Authentication auth =
+    Authentication authentication =
         authenticationManager.authenticate(
             new OtpAuthenticationToken(request.getMobileNumber(), request.getOtp()));
-    return ResponseEntity.ok(jwtService.generateAuthorizationToken(auth));
+    return ResponseEntity.ok(jwtService.generateAuthorizationToken(authentication));
   }
 }

@@ -1,5 +1,6 @@
 package com.auth_service_v1.security;
 
+import com.auth_service_v1.security.jwt.JwtAuthenticationFilter;
 import com.auth_service_v1.service.impl.auth.JwtServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +26,8 @@ public class SecurityConfig {
         .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(
             auth ->
-                auth.requestMatchers("/auth/request-otp", "/auth/verify-otp")
+                auth.requestMatchers(
+                        "/auth/request-otp", "/auth/verify-otp", "/auth/refresh-token", "/error")
                     .permitAll()
                     .anyRequest()
                     .authenticated())
