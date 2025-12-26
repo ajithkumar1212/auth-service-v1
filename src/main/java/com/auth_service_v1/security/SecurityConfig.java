@@ -1,11 +1,13 @@
 package com.auth_service_v1.security;
 
 import com.auth_service_v1.security.jwt.JwtAuthenticationFilter;
+import com.auth_service_v1.security.provider.OtpAuthenticationProvider;
+import com.auth_service_v1.security.provider.RefreshTokenAuthenticationProvider;
 import com.auth_service_v1.service.impl.auth.JwtServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -38,10 +40,17 @@ public class SecurityConfig {
     return http.build();
   }
 
-  /** Required so that AuthenticationManager can use your CustomAuthenticationProvider */
   @Bean
-  AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
+  public AuthenticationManager authenticationManager(
+      HttpSecurity http,
+      OtpAuthenticationProvider otpProvider,
+      RefreshTokenAuthenticationProvider refreshProvider)
       throws Exception {
-    return configuration.getAuthenticationManager();
+
+    AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
+
+    builder.authenticationProvider(otpProvider).authenticationProvider(refreshProvider);
+
+    return builder.build();
   }
 }

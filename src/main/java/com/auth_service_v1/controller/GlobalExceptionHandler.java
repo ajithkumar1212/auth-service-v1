@@ -10,7 +10,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<?> handle(Exception ex) {
-    ex.printStackTrace(); // VERY IMPORTANT
+    ex.printStackTrace();
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
         .body(ex.getClass().getName() + " : " + ex.getMessage());
   }

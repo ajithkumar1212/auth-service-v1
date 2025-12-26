@@ -8,7 +8,6 @@ import com.auth_service_v1.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import java.util.Collection;
 import java.util.Date;
-import java.util.UUID;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -18,20 +17,27 @@ public class JwtServiceImpl implements IJwtService {
 
   private final JwtConfig jwtConfig;
 
-  public JwtServiceImpl(JwtConfig jwtConfig) {
+  private final RefreshTokenService refreshTokenService;
+
+  public JwtServiceImpl(JwtConfig jwtConfig, RefreshTokenService refreshTokenService) {
     this.jwtConfig = jwtConfig;
+    this.refreshTokenService = refreshTokenService;
   }
 
   @Override
   public AuthResponse generateAuthorizationToken(Authentication auth) {
-    UUID refreshUUIDId = UUID.randomUUID();
     String accessToken =
         JwtUtils.generateAccessToken(
             auth, jwtConfig.getAccessSecret(), jwtConfig.getAccessExpiration());
+    String refreshToken =
+        JwtUtils.generateRefreshToken(
+            auth, jwtConfig.getRefreshSecret(), jwtConfig.getRefreshExpiration());
+
+    refreshTokenService.create(auth.getName(), refreshToken, jwtConfig.getRefreshExpiration());
 
     return new AuthResponse(
         accessToken,
-        accessToken,
+        refreshToken,
         jwtConfig.getAccessExpiration(),
         jwtConfig.getRefreshExpiration());
   }

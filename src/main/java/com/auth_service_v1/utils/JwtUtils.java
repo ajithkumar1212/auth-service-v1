@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.crypto.SecretKey;
@@ -52,12 +51,12 @@ public class JwtUtils {
   }
 
   public static String generateRefreshToken(
-      Authentication auth, UUID refreshUUIDId, String refreshSecret, long refreshExpirationMs) {
+      Authentication auth, String refreshSecret, long refreshExpirationMs) {
 
     return Jwts.builder()
         .subject(auth.getName())
-        .id(refreshUUIDId.toString())
         .issuedAt(Date.from(Instant.now()))
+        .claim("type", "refresh")
         .expiration(Date.from(Instant.now().plusMillis(refreshExpirationMs)))
         .signWith(getSignInKey(refreshSecret))
         .compact();

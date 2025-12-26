@@ -1,4 +1,4 @@
-package com.auth_service_v1.entity.auth;
+package com.auth_service_v1.entity.authentication;
 
 import com.auth_service_v1.entity.audit.AuditableEntity;
 import jakarta.persistence.Entity;

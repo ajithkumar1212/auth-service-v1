@@ -1,7 +1,7 @@
 package com.auth_service_v1.service.impl.user;
 
-import com.auth_service_v1.entity.auth.OtpEntity;
-import com.auth_service_v1.repository.auth.OtpRepository;
+import com.auth_service_v1.entity.authentication.OtpEntity;
+import com.auth_service_v1.repository.authentication.OtpRepository;
 import com.auth_service_v1.service.user.IOtpService;
 import java.time.LocalDateTime;
 import java.util.Random;
